@@ -50,7 +50,7 @@ The removed posts contained the original video embeds, code blocks, and math. Su
 | `/sitemap-index.xml` | Astro sitemap index |
 | `/sitemap.xml` and `/sitemap/sitemap-index.xml` | Compatibility indexes pointing to the current sitemap |
 
-RSS uses summaries rather than the previous full HTML bodies. The retained post paths do not need redirects. The public deployment has one canonical domain, `www.hojins.life`, published from `froggagul/hojins.life`. At the owner's request, the old `www.hojins.life` and `dev.hojins.life` repositories' Pages deployments are being retired, and the `dev.hojins.life` DNS record is being removed without a redirect. Their repositories remain available as historical sources. See [deployment notes](deployment.md) for the cutover procedure.
+RSS uses summaries rather than the previous full HTML bodies. The retained post paths do not need redirects. The public deployment has one canonical domain, `www.hojins.life`, published from `froggagul/hojins.life`. At the owner's request, the old `www.hojins.life` and `dev.hojins.life` repositories' Pages deployments and Gatsby workflows were disabled on October 14, 2026, and the `dev.hojins.life` DNS record was removed without a redirect. Their repositories remain available as historical sources, with their former published output preserved in `retired-gh-pages-2026-10-14` branches. See [deployment notes](deployment.md) for the cutover and rollback details.
 
 ## Academic facts
 

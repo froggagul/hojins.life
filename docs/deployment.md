@@ -2,7 +2,7 @@
 
 The production URL is **https://www.hojins.life**, served at `/`. `astro.config.mjs`, canonical and social metadata, RSS, sitemap, and `public/CNAME` use that domain.
 
-The publishing repository is [froggagul/hojins.life](https://github.com/froggagul/hojins.life), with `main` as its default and publishing branch. The previous `froggagul/www.hojins.life` and `froggagul/dev.hojins.life` repositories are retained as historical sources; their GitHub Pages sites and Gatsby deployment workflows are to be disabled during the domain cutover. `dev.hojins.life` is being retired, including its Route 53 CNAME, without a redirect.
+The publishing repository is [froggagul/hojins.life](https://github.com/froggagul/hojins.life), with `main` as its default and publishing branch. GitHub Pages uses GitHub Actions, the `github-pages` environment permits `main` without required reviewers, and HTTPS is enforced. The previous `froggagul/www.hojins.life` and `froggagul/dev.hojins.life` repositories are retained as historical sources; their GitHub Pages sites and Gatsby deployment workflows are disabled. `dev.hojins.life` is retired, including its Route 53 CNAME, without a redirect.
 
 ## One-time setup
 
@@ -24,10 +24,14 @@ The workflow uses `.nvmrc` and `npm ci`, installs Chromium, runs Astro/TypeScrip
 
 Concurrency is grouped by branch or PR. A new `main` run cancels the older build/deploy together, and the deploy job checks that its commit is still the tip of `main` before publishing. Deployment has scoped Pages/OIDC permissions and uses the `github-pages` environment. Build and deployment status appear separately in Actions.
 
-## Domain cutover
+## October 14, 2026 domain cutover
 
-Build and deploy this repository successfully before releasing the domain from the old repository. Disable the old Gatsby workflows, unpublish the old Pages sites, assign `www.hojins.life` to this repository's Pages settings, and enforce HTTPS once the certificate is available. Delete only the `dev.hojins.life` CNAME from Route 53; keep the `www` CNAME, apex GitHub Pages A records, nameservers, and verification records. Wait for Route 53 to report `INSYNC` and check the live homepage, retained posts, search, CV PDF, and apex redirect.
+The [initial check and deployment](https://github.com/froggagul/hojins.life/actions/runs/38526950678) succeeded before the custom domain was released from the old repository and assigned here. The existing certificate covers both `www.hojins.life` and `hojins.life`.
 
-The old repositories and their source history remain available. To reverse the cutover, first release the custom domain from this repository, then restore the old Pages settings (`gh-pages`, `/`) and custom domains, re-enable their Gatsby workflows, and restore the `dev` CNAME to `froggagul.github.io` with TTL 300.
+Both old Gatsby workflows were disabled and both Pages sites were deleted. GitHub rejected deletion while their special `gh-pages` branches existed. Each branch's full published output and history was first preserved as `retired-gh-pages-2026-10-14`; the `gh-pages` branch was then removed and Pages deletion succeeded. The original source branches and local reference directories remain available.
+
+Only the `dev.hojins.life` CNAME was deleted from the [Route 53 hosted zone](https://console.aws.amazon.com/route53/v2/hostedzones#ListRecordSets/Z06561233P8SZ06LCW5YA). Change `C04732751KV2PGBOZTUG6` reached `INSYNC`, and the authoritative nameserver returned `NXDOMAIN` for `dev.hojins.life`. The `www` CNAME, apex GitHub Pages A records, nameservers, and verification records were preserved. Existing resolver and browser caches may retain the old sites until their TTLs expire.
+
+To reverse the cutover, first release the custom domain from this repository. In each old repository, recreate `gh-pages` from `retired-gh-pages-2026-10-14`, restore the Pages source (`gh-pages`, `/`) and its custom domain, and re-enable the Gatsby workflow. Restore the `dev` CNAME to `froggagul.github.io` with TTL 300. Confirm HTTPS and the resulting deployments before relying on them.
 
 The CV PDF is an earlier snapshot and should be replaced with the updated full CV; see [migration notes](migration.md).
