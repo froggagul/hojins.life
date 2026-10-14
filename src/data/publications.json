@@ -1,0 +1,92 @@
+[
+  {
+    "id": "neuralsvcd",
+    "title": "NeuralSVCD for Efficient Swept Volume Collision Detection",
+    "authors": [
+      "Dongwon Son*",
+      "Hojin Jung*",
+      "Beomjoon Kim"
+    ],
+    "venue": "Conference on Robot Learning (CoRL)",
+    "year": 2025,
+    "status": "published",
+    "selected": true,
+    "thumbnail": {
+      "src": "/media/publications/neuralsvcd.gif",
+      "poster": "/media/publications/neuralsvcd.webp",
+      "alt": "NeuralSVCD demos: dish manipulation, two-arm manipulation of interlocking objects, and motion planning in a mining scene",
+      "width": 320,
+      "height": 180,
+      "clips": [
+        {
+          "url": "https://neuralsvcd.github.io/dish.5110e40e.mp4",
+          "start": 1,
+          "end": 9
+        },
+        {
+          "url": "https://neuralsvcd.github.io/bimanual.c333dffa.mp4",
+          "start": 0,
+          "end": 4
+        },
+        {
+          "url": "https://neuralsvcd.github.io/mining_site.0891f317.mp4",
+          "start": 18,
+          "end": 26
+        }
+      ]
+    },
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://arxiv.org/abs/2509.00499"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/neuralsvcd/PointObjRep"
+      },
+      {
+        "label": "Project",
+        "url": "https://neuralsvcd.github.io/"
+      }
+    ],
+    "relatedPost": "/posts/연구 일지/5/"
+  },
+  {
+    "id": "recsys-2023",
+    "title": "Capturing Performance and Privacy by Assembling Avengers of Online Advertising",
+    "authors": [
+      "Taehee Kim*",
+      "Seungyun Baek*",
+      "Taehyeon Jeon*",
+      "Hojin Jung*",
+      "Joonhong Kim*",
+      "Taeho Lee*"
+    ],
+    "venue": "ACM RecSys Challenge Workshop",
+    "year": 2023,
+    "status": "published",
+    "selected": true,
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://doi.org/10.1145/3626221.3627286"
+      }
+    ],
+    "relatedPost": "/posts/연구 일지/1/"
+  },
+  {
+    "id": "powershell-2022",
+    "title": "Deobfuscation Processing and Deep Learning-Based Detection Method for PowerShell-Based Malware",
+    "authors": [
+      "Hojin Jung",
+      "Hyogon Ryu",
+      "Kyuwhan Jo",
+      "Sangkyun Lee"
+    ],
+    "venue": "Journal of the Korea Institute of Information Security & Cryptology",
+    "year": 2022,
+    "status": "published",
+    "selected": false,
+    "links": []
+  }
+]

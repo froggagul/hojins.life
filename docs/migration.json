@@ -1,0 +1,56 @@
+{
+  "migratedOn": "2026-10-14",
+  "posts": [
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/1.md",
+      "file": "src/content/blog/recap/1.md",
+      "oldUrl": "https://www.hojins.life/posts/연구 일지/1/",
+      "url": "/posts/연구 일지/1/",
+      "title": "Recsys Challenge 2023",
+      "date": "2023-09-22",
+      "series": "recap",
+      "order": 1,
+      "originalFrontmatter": "title: Recsys Challenge 2023\ndate: 2023-09-22\nep: 1",
+      "bodySha256": "06f3fa90f9f017f3bd21cfd08a39d60a795d89ded602fb9c669aaba5996a5010"
+    },
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/5.md",
+      "file": "src/content/blog/recap/2.md",
+      "oldUrl": "https://www.hojins.life/posts/연구 일지/5/",
+      "url": "/posts/연구 일지/5/",
+      "title": "첫 논문 회고 및 대학원 돌아보기",
+      "date": "2025-07-03",
+      "series": "recap",
+      "order": 2,
+      "originalFrontmatter": "title: 첫 논문 회고 및 대학원 돌아보기\ndate: 2025-07-03\nep: 5",
+      "bodySha256": "3deea74e0283c9df31dee929be1eb94faa8c49fd28c403c74d84e5425e2c27e1"
+    }
+  ],
+  "media": [
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/1.1.png",
+      "file": "src/content/blog/recap/1.1.png",
+      "sha256": "18582e68f3f08d3854f72269be3313999282acb0231c002cc90268ca26987b4e"
+    },
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/1.2.png",
+      "file": "src/content/blog/recap/1.2.png",
+      "sha256": "d149f94396ad88bd2dd073f0ffe81026daff74da388268dbf4183e47270eb84d"
+    },
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/1.4.png",
+      "file": "src/content/blog/recap/1.4.png",
+      "sha256": "27a23b48d444c01092915489e97fc7b1c1668e9781ab42134101c7c7df252448"
+    },
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/1.5.png",
+      "file": "src/content/blog/recap/1.5.png",
+      "sha256": "e700216bc522266a57d28495bc58fa0201bb9102204b3efd8b0a2ff50100d33a"
+    },
+    {
+      "source": "www.hojins.life/content/posts/연구 일지/5.1.png",
+      "file": "src/content/blog/recap/5.1.png",
+      "sha256": "4f98a8b432716d351c29c21b4d1afd85c0eaec66b9d94e2eeebccb605fe354e4"
+    }
+  ]
+}

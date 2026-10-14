@@ -1,0 +1,52 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import 'katex/dist/katex.min.css';
+import '../../styles/post.css';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, getWriting, getSeries, postDescription, seriesUrl, tagUrl } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await getWriting();
+  return posts.map(post => ({ params: { path: post.data.url.slice('/posts/'.length, -1) }, props: { post, posts } }));
+}
+interface Props { post: CollectionEntry<'blog'>; posts: CollectionEntry<'blog'>[] }
+const { post, posts } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+const series = data.series ? getSeries(posts, data.series) : [];
+const index = series.findIndex(item => item.id === post.id);
+const previous = series[index - 1];
+const next = series[index + 1];
+---
+<Layout title={`${data.title} · Hojin Jung`} description={postDescription(post)} active="Blog" language={data.language} published={data.date} updated={data.updated}>
+  <article class="post-page">
+    <header class="page-heading post-heading">
+      <a class="text-link" href="/blog/">← Blog</a>
+      <h1>{data.title}</h1>
+      <div class="post-details"><time datetime={data.date}>{formatDate(data.date)}</time>{data.updated && <span>Updated <time datetime={data.updated}>{formatDate(data.updated)}</time></span>}{data.series && <a href={seriesUrl(data.series)}>{data.series} · {data.order}</a>}</div>
+      {data.tags.length > 0 && <ul class="post-tags" aria-label="Tags">{data.tags.map(tag => <li><a href={tagUrl(tag)}>#{tag}</a></li>)}</ul>}
+    </header>
+    {data.series && <details class="series-contents"><summary>Series: {data.series} · {series.length} {series.length === 1 ? 'post' : 'posts'}</summary><ol>{series.map(item => <li value={item.data.order}><a href={item.data.url} aria-current={item.id === post.id ? 'page' : undefined}>{item.data.title}</a></li>)}</ol></details>}
+    <div class="prose"><Content /></div>
+    {series.length > 1 && <nav class="series-navigation" aria-label="Series navigation">
+      {previous && <a rel="prev" href={previous.data.url}><span>Previous in series</span>{previous.data.title}</a>}
+      {next && <a rel="next" href={next.data.url}><span>Next in series</span>{next.data.title}</a>}
+    </nav>}
+  </article>
+</Layout>
+<script>
+  document.querySelectorAll<HTMLElement>('.video-embed').forEach(embed => {
+    const button = embed.querySelector<HTMLButtonElement>('button')!;
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${embed.dataset.videoId}`;
+      frame.title = 'YouTube video player';
+      frame.allow = 'encrypted-media; picture-in-picture; fullscreen';
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      button.replaceWith(frame);
+      frame.focus();
+    }, { once: true });
+  });
+</script>

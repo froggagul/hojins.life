@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getWriting, seriesUrl } from '../../lib/content';
+const posts = await getWriting();
+const names = [...new Set(posts.flatMap(({ data }) => data.series ? [data.series] : []))];
+---
+<Layout title="Series · Hojin Jung" active="Blog" description="Browse Hojin Jung’s writing in reading order, by series.">
+  <header class="page-heading"><a class="text-link" href="/blog/">← Blog</a><h1>Series</h1></header>
+  <section class="page-content" aria-label="Blog series"><ul class="browse-list">{names.map(name => <li><a href={seriesUrl(name)}><span>{name}</span><span>{posts.filter(post => post.data.series === name).length} posts</span></a></li>)}</ul></section>
+</Layout>

@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/hojin.jpeg';
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import WritingList from '../components/WritingList.astro';
+import Publication from '../components/Publication.astro';
+import Project from '../components/Project.astro';
+import { profile, getWriting, getPublications, getProjects } from '../lib/content';
+const posts = (await getWriting()).slice(0, 4);
+const publications = (await getPublications()).filter(({ data }) => data.selected);
+const projects = (await getProjects()).filter(({ data }) => data.selected);
+---
+<Layout>
+  <section class="intro" aria-labelledby="intro-title">
+    <div class="intro-copy">
+      <h1 id="intro-title">Hojin Jung<span class="korean-name" lang="ko">정호진</span></h1>
+      <div class="intro-description">
+        {profile.introduction.map(paragraph => <p>
+          {paragraph.map(part => typeof part === 'string' ? part : <a href={part.url}>{part.text}</a>)}
+        </p>)}
+      </div>
+      <div class="intro-links"><a href={`mailto:${profile.email}`}>Email</a><a href={profile.github}>GitHub</a><a href={profile.cv}>CV (PDF)</a></div>
+    </div>
+    <figure class="portrait"><Image src={portrait} alt="Hojin Jung smiling by the sea" width={320} height={384} fit="cover" position="centre" format="webp" loading="eager" fetchpriority="high" /></figure>
+  </section>
+  <section class="home-section research-section" id="publications" aria-labelledby="publications-title">
+    <div class="section-heading"><h2 id="publications-title">Selected publications</h2><a class="text-link" href="/publications/">All publications</a></div>
+    <div class="publications-list">{publications.map(publication => <Publication publication={publication} />)}</div>
+    <p class="contribution-note">* Equal contribution</p>
+  </section>
+  <section class="home-section projects-section" id="projects" aria-labelledby="projects-title">
+    <div class="section-heading"><h2 id="projects-title">Projects</h2><a class="text-link" href="/projects/">All projects</a></div>
+    <div class="projects-list">{projects.map(project => <Project project={project} />)}</div>
+  </section>
+  <section class="home-section blog-section" id="writing" aria-labelledby="writing-title">
+    <details class="blog-disclosure">
+      <summary>
+        <h2 id="writing-title">Recent writing</h2>
+        <span class="blog-toggle"><span class="blog-expand">Expand</span><span class="blog-collapse">Collapse</span><Icon /></span>
+      </summary>
+      <WritingList posts={posts} />
+      <a class="text-link blog-archive-link" href="/blog/">All posts</a>
+    </details>
+  </section>
+</Layout>
+<script>
+  // Preserve bookmarks from both Gatsby blogs, which searched at /?query=….
+  const legacyQuery = new URLSearchParams(location.search).get('query');
+  if (legacyQuery !== null) {
+    const url = new URL('/search/', location.origin);
+    if (legacyQuery.trim()) url.searchParams.set('q', legacyQuery);
+    location.replace(url.href);
+  }
+</script>

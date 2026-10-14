@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Project from '../../components/Project.astro';
+import { getProjects } from '../../lib/content';
+const projects = await getProjects();
+---
+<Layout title="Projects · Hojin Jung" active="Projects" description="Projects by Hojin Jung, including DOLSOE, a wheeled biped robot in development.">
+  <header class="page-heading"><p class="eyebrow">Work in progress</p><h1>Projects</h1><p>What I’m building and exploring.</p></header>
+  <section class="page-content" aria-label="All projects"><div class="projects-list">{projects.map(project => <Project project={project} />)}</div></section>
+</Layout>

@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import { formatDate } from '../lib/content';
+interface Props { posts: CollectionEntry<'blog'>[]; featured?: boolean }
+const { posts, featured = false } = Astro.props;
+---
+<ul class="writing-list">
+  {posts.map(({ data }, index) => <li>
+    <a class="writing-row" href={data.url}>
+      <div class="writing-text">
+        {(data.series || featured) && <div class="post-meta"><span lang={data.language}>{data.series}</span>{data.order !== undefined && <span class="episode">{String(data.order).padStart(2, '0')}</span>}{featured && index === 0 && <span class="latest-label">Latest</span>}</div>}
+        <h3 lang={data.language}>{data.title}</h3>
+        {featured && index === 0 && data.description && <p class="post-excerpt" lang={data.language}>{data.description}</p>}
+      </div>
+      <time datetime={data.date}>{formatDate(data.date)}</time>
+      <span class="row-arrow"><Icon name="arrow" /></span>
+    </a>
+  </li>)}
+</ul>

@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { getWriting, getPublications, getProjects, projectUrl } from '../lib/content';
+import type { SearchEntry } from '../lib/search';
+const [posts, publications, projects] = await Promise.all([getWriting(), getPublications(), getProjects()]);
+const entries: SearchEntry[] = [
+  ...posts.map(({ data }) => ({ title: data.title, url: data.url, type: 'Blog' as const, detail: [data.series, data.date, ...data.tags].filter(Boolean).join(' · '), terms: `${data.title} ${data.series ?? ''} ${data.tags.join(' ')} ${data.order !== undefined ? `Ep. ${data.order}` : ''}`, language: data.language })),
+  ...publications.map(({ data, id }) => ({ title: data.title, url: `/publications/#${id}`, type: 'Publication' as const, detail: `${data.authors.join(', ')} · ${data.year}`, terms: `${data.title} ${data.authors.join(' ')} ${data.venue}`, language: 'en' })),
+  ...projects.map(({ data, id }) => ({ title: data.title, url: projectUrl(id), type: 'Project' as const, detail: data.description, terms: `${data.title} ${data.description} ${data.overview.join(' ')}`, language: 'en' })),
+];
+---
+<Layout title="Search · Hojin Jung" active="Search" description="Search Hojin Jung’s writing, publications, and projects in Korean or English.">
+  <header class="page-heading"><p class="eyebrow">Find something</p><h1>Search</h1><p>Search writing, publications, and projects by title, series, topic, or author. Korean and English both work.</p></header>
+  <section class="page-content" aria-label="Site search">
+    <form class="search-form" role="search" action="/search/" method="get"><Icon name="search" size={20} /><label class="sr-only" for="search-input">Search writing, publications, and projects</label><input id="search-input" type="search" name="q" placeholder="Try 연구, recap, or NeuralSVCD" autocomplete="off" /><button type="button" id="clear-search" hidden>Clear</button><noscript><button type="submit">Search</button></noscript></form>
+    <noscript><p class="search-status">Live filtering needs JavaScript. You can browse all entries below or use your browser’s Find command.</p></noscript>
+    <p class="search-status" id="search-status" role="status" aria-live="polite">{entries.length} entries · Browse all writing, publications, and projects</p>
+    <ul id="search-results">{entries.map(entry => <li class="search-result" data-search={entry.terms}><a href={entry.url}><div class="result-meta"><span>{entry.type}</span><Icon name="arrow" size={14} /></div><h2 lang={entry.language}>{entry.title}</h2><p>{entry.detail}</p></a></li>)}</ul>
+    <div class="search-empty" id="search-empty" hidden><h2>No matches yet.</h2><p>Try a shorter phrase, another spelling, or clear your search.</p></div>
+  </section>
+</Layout>
+<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
+<script>
+  import { matchesSearch } from '../lib/search';
+  const input = document.querySelector<HTMLInputElement>('#search-input')!;
+  const clear = document.querySelector<HTMLButtonElement>('#clear-search')!;
+  const status = document.querySelector<HTMLElement>('#search-status')!;
+  const empty = document.querySelector<HTMLElement>('#search-empty')!;
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-search]'));
+  function update() {
+    const query = input.value.trim();
+    let count = 0;
+    rows.forEach(row => { row.hidden = !matchesSearch(row.dataset.search ?? '', query); if (!row.hidden) count++; });
+    clear.hidden = !input.value;
+    empty.hidden = count > 0;
+    status.textContent = query ? `${count} ${count === 1 ? 'result' : 'results'} for “${query}”` : `${count} entries · Browse all writing, publications, and projects`;
+    const url = new URL(location.href);
+    query ? url.searchParams.set('q', query) : url.searchParams.delete('q');
+    history.replaceState(null, '', url);
+  }
+  input.value = new URLSearchParams(location.search).get('q') ?? '';
+  input.addEventListener('input', event => { if (!(event as InputEvent).isComposing) update(); });
+  input.addEventListener('compositionend', update);
+  document.querySelector('.search-form')?.addEventListener('submit', event => { event.preventDefault(); update(); });
+  clear.addEventListener('click', () => { input.value = ''; update(); input.focus(); });
+  update();
+  if (location.hash === '#search-input') {
+    input.focus();
+    input.select();
+  }
+</script>

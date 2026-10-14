@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WritingList from '../../components/WritingList.astro';
+import { getWriting } from '../../lib/content';
+export async function getStaticPaths() {
+  const posts = await getWriting();
+  const tags = [...new Set(posts.flatMap(({ data }) => data.tags))];
+  return tags.map(tag => ({ params: { tag }, props: { tag, posts: posts.filter(post => post.data.tags.includes(tag)) } }));
+}
+const { tag, posts } = Astro.props;
+---
+<Layout title={`${tag} · Tags · Hojin Jung`} active="Blog" description={`${tag} — ${posts.map(post => post.data.title).join(', ')}`}>
+  <header class="page-heading"><a class="text-link" href="/tags/">← Tags</a><h1>{tag}</h1><p>{posts.length} posts · Newest first</p></header>
+  <section class="page-content" aria-label={tag}><WritingList posts={posts} /></section>
+</Layout>

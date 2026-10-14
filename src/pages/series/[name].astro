@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WritingList from '../../components/WritingList.astro';
+import { getWriting, getSeries } from '../../lib/content';
+export async function getStaticPaths() {
+  const posts = await getWriting();
+  const names = [...new Set(posts.flatMap(({ data }) => data.series ? [data.series] : []))];
+  return names.map(name => ({ params: { name }, props: { name, posts: getSeries(posts, name) } }));
+}
+const { name, posts } = Astro.props;
+---
+<Layout title={`${name} · Series · Hojin Jung`} active="Blog" description={`${name} — ${posts.map(post => post.data.title).join(', ')}`}>
+  <header class="page-heading"><a class="text-link" href="/series/">← Series</a><h1>{name}</h1><p>{posts.length} posts · Reading order</p></header>
+  <section class="page-content" aria-label={name}><WritingList posts={posts} /></section>
+</Layout>

@@ -1,0 +1,16 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { projectUrl } from '../lib/content';
+import Icon from './Icon.astro';
+interface Props { project: CollectionEntry<'projects'> }
+const { project: { data, id } } = Astro.props;
+---
+<article class="project" id={id}>
+  <span class="project-year">{data.year}</span>
+  <div class="project-details">
+    <p class="project-status">{data.status}</p>
+    <h3><a href={projectUrl(id)}>{data.title}</a></h3>
+    <p class="project-description">{data.description}</p>
+    <div class="project-links"><a href={projectUrl(id)} aria-label={`About ${data.title}`}>About the project<Icon name="arrow" size={14} /></a></div>
+  </div>
+</article>

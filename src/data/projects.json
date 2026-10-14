@@ -1,0 +1,14 @@
+[
+  {
+    "id": "dolsoe",
+    "title": "DOLSOE",
+    "year": 2026,
+    "status": "In progress",
+    "selected": true,
+    "description": "Developing a wheeled biped robot, with current work on simulation, locomotion, and control.",
+    "overview": [
+      "I’m developing DOLSOE (aka 돌쇠), a wheeled biped robot intended for park walks, stairs, and quick turns, with a small arm for interactions such as handing over a flower.",
+      "My current work focuses on the lower body in MuJoCo: balancing, moving toward a goal, and crossing uneven terrain. I’m exploring model predictive control (MPC), imitation learning, and reinforcement learning to develop the controller. Reliable terrain traversal and physical hardware validation remain open work."
+    ]
+  }
+]

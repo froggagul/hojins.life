@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { profile, formatDate } from '../lib/content';
+---
+<Layout title="CV · Hojin Jung" active="CV" description="Education, research, and engineering experience of Hojin Jung, with a downloadable CV.">
+  <header class="page-heading cv-top"><div><p class="eyebrow">Background</p><h1>Curriculum vitae</h1></div><a class="button-link" href={profile.cv} download="Hojin-Jung-CV.pdf">Download CV <span class="pdf-label">PDF</span><Icon name="download" size={16} /></a></header>
+  <div class="page-content">{profile.cvNote && <p class="cv-note">{profile.cvNote}</p>}{[{ title: 'Education', entries: profile.education }, { title: 'Research & work', entries: profile.experience }].map(section => <section class="cv-section"><h2>{section.title}</h2>{section.entries.map(entry => <article class="cv-entry"><div><h3>{entry.organization}</h3>{entry.role && <p class="cv-role">{entry.role}</p>}{entry.detail && <p>{entry.detail}</p>}</div><span>{entry.period}</span></article>)}</section>)}<p class="contribution-note">Updated {formatDate(profile.verifiedOn)}. <a href={profile.source}>CV source</a>.</p></div>
+</Layout>

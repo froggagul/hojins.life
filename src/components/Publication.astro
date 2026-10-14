@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+interface Props { publication: CollectionEntry<'publications'> }
+const { publication: { data, id } } = Astro.props;
+const projectUrl = data.links.find(link => link.label === 'Project')?.url ?? data.links[0]?.url;
+---
+<article class:list={['publication', { 'publication-with-thumbnail': data.thumbnail }]} id={id}>
+  <span class="publication-year">{data.year}</span>
+  <div class="publication-details">
+    <p class="publication-venue">{data.venue}{data.status !== 'published' && ` · ${data.status}`}</p>
+    <h3>{data.links[0] ? <a href={data.links[0].url}>{data.title}</a> : data.title}</h3>
+    <p class="authors">{data.authors.map((author, index) => <>{index > 0 && ', '}{author.startsWith('Hojin Jung') ? <strong>{author}</strong> : author}</>)}</p>
+    <div class="publication-links">{data.links.map(link => <a href={link.url}>{link.label}<Icon name="external" size={14} /></a>)}{data.relatedPost && <a class="related-post" href={data.relatedPost}>Related writing<Icon name="external" size={14} /></a>}</div>
+  </div>
+  {data.thumbnail && <div class="publication-thumbnail">
+    <input class="thumbnail-motion-toggle" type="checkbox" id={`${id}-animation`} checked aria-label={`Animate ${data.title} thumbnail`} />
+    <a class="thumbnail-link" href={projectUrl} aria-label={`View the ${data.title} project`}>
+      <picture class="thumbnail-animation">
+        <source media="(prefers-reduced-motion: reduce)" srcset={data.thumbnail.poster} />
+        <img src={data.thumbnail.src} alt={data.thumbnail.alt} width={data.thumbnail.width} height={data.thumbnail.height} loading="lazy" decoding="async" />
+      </picture>
+      <img class="thumbnail-still" src={data.thumbnail.poster} alt={data.thumbnail.alt} width={data.thumbnail.width} height={data.thumbnail.height} loading="lazy" decoding="async" />
+    </a>
+    <label class="thumbnail-motion-label" for={`${id}-animation`} aria-hidden="true"><span class="thumbnail-pause">Ⅱ Pause</span><span class="thumbnail-play">▷ Play</span></label>
+  </div>}
+</article>

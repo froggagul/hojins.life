@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Publication from '../components/Publication.astro';
+import { getPublications } from '../lib/content';
+const publications = await getPublications();
+---
+<Layout title="Publications · Hojin Jung" active="Publications" description="Publications by Hojin Jung in robotics, online advertising, and malware detection.">
+  <header class="page-heading"><p class="eyebrow">Research</p><h1>Publications</h1><p>Published work, with papers, code, and related writing where available.</p></header>
+  <section class="page-content" aria-label="All publications"><div class="publications-list">{publications.map(publication => <Publication publication={publication} />)}</div><p class="contribution-note">* Equal contribution</p></section>
+</Layout>

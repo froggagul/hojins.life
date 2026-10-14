@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WritingList from '../components/WritingList.astro';
+import Icon from '../components/Icon.astro';
+import { getWriting } from '../lib/content';
+const posts = await getWriting();
+---
+<Layout title="Blog · Hojin Jung" active="Blog" description="Essays, diaries, research notes, and technical writing by Hojin Jung, in Korean and English.">
+  <header class="page-heading"><p class="eyebrow">Writing</p><h1>Blog</h1><p>Research notes, personal essays, and everyday life.</p><nav class="browse-links" aria-label="Browse writing"><a href="/series/">Series</a><a href="/tags/">Tags</a><a href="/rss.xml">RSS</a></nav></header>
+  <section class="page-content" aria-label="Blog archive"><div class="archive-tools"><p class="archive-count">{posts.length} posts · Newest first</p><a class="text-link" href="/search/">Search titles & series <Icon name="search" size={15} /></a></div><WritingList posts={posts} /></section>
+</Layout>

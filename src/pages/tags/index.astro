@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getWriting, tagUrl } from '../../lib/content';
+const posts = await getWriting();
+const tags = [...new Set(posts.flatMap(({ data }) => data.tags))].sort((a, b) => a.localeCompare(b, 'ko'));
+---
+<Layout title="Tags · Hojin Jung" active="Blog" description="Browse Hojin Jung’s writing by topic.">
+  <header class="page-heading"><a class="text-link" href="/blog/">← Blog</a><h1>Tags</h1></header>
+  <section class="page-content" aria-label="Blog tags"><ul class="browse-list">{tags.map(tag => <li><a href={tagUrl(tag)}><span>{tag}</span><span>{posts.filter(post => post.data.tags.includes(tag)).length} posts</span></a></li>)}</ul></section>
+</Layout>

@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import { getProjects } from '../../lib/content';
+export const getStaticPaths = (async () => (await getProjects()).map(project => ({
+  params: { id: project.id },
+  props: { project },
+}))) satisfies GetStaticPaths;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { project: { data } } = Astro.props;
+---
+<Layout title={`${data.title} · Projects · Hojin Jung`} active="Projects" description={data.description}>
+  <article>
+    <header class="page-heading"><p class="eyebrow">Project · {data.year} · {data.status}</p><h1>{data.title}</h1><p>{data.description}</p></header>
+    <div class="page-content project-overview">
+      {data.overview.map(paragraph => <p>{paragraph}</p>)}
+      <a class="text-link" href="/projects/">All projects</a>
+    </div>
+  </article>
+</Layout>
